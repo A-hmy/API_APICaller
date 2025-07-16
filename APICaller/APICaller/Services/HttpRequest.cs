@@ -94,7 +94,7 @@ namespace APICaller
                 Console.WriteLine("Error");
             }
         }
-        public static async Task Post_token(string baseUrl)
+        public static async Task<bool> Post_token(string baseUrl)
         {
             Console.WriteLine("Enter Your userneme:");
             string username = Console.ReadLine();
@@ -110,11 +110,12 @@ namespace APICaller
             {
                 Console.WriteLine("You Loged in");
                 Token = await response.Content.ReadAsStringAsync();
-                Console.WriteLine($"Token: {Token}");
+                return true;
             }
             else
             {
                 Console.WriteLine("Error:login");
+                return false;
             }
         }
     }

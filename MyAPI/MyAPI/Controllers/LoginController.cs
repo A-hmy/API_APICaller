@@ -5,7 +5,7 @@ namespace MyAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class LoginController
+    public class LoginController : ControllerBase 
     {
         private readonly TokenService _tokenService;
 
@@ -14,11 +14,11 @@ namespace MyAPI.Controllers
             _tokenService = tokenService;
         }
         [HttpPost]
-        public string Login(LoginModel userlogin)
+        public IActionResult Login(LoginModel userlogin)
         {
             var(isvalid,rule)=UserService.ValidateUser(userlogin);
-            if (isvalid) { return _tokenService.GenerateToken(userlogin.UserName, rule); }
-            else { return "User not sign up."; }
+            if (isvalid) { return Ok(_tokenService.GenerateToken(userlogin.UserName, rule)); }
+            else {  return NotFound("User is not signed up."); }
         }
     }
 }
