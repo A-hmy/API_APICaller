@@ -1,0 +1,10 @@
+
+bin/
+obj/
+
+*.vs
+*.db-shm
+*.db-wal
+
+
+*.csproj.user

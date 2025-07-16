@@ -1,0 +1,13 @@
+
+bin/
+obj/
+
+
+*.db-shm
+*.db-wal
+
+
+books.db
+
+
+*.csproj.user
