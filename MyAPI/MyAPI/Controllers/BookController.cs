@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using MyAPI.Models;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyAPI.Data;
+using MyAPI.Models;
 using MyAPI.Services;
 
 namespace MyAPI.Controllers
@@ -14,6 +15,7 @@ namespace MyAPI.Controllers
         public BookController(IBookService bookService) { 
             _bookService = bookService;
         }
+        
         [HttpGet]
         public async Task<List<BookModelDTO>> GetAllBooks()
         {
@@ -21,14 +23,14 @@ namespace MyAPI.Controllers
             Console.WriteLine($"Thread ID: {threadId}");
             return await _bookService.GetBooks();
         }
-
+        [Authorize(Roles = "user,admin")]
         [HttpGet("{title}")]
         public async Task<List<BookModelDTO>> GetBookTitle(string title) {
             int threadId = System.Threading.Thread.CurrentThread.ManagedThreadId;
             Console.WriteLine($"Thread ID: {threadId}");
             return await _bookService.GetBookByTitle(title);
         }
-
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public void AddBook([FromBody] BookModelDTO book) {
             int threadId = System.Threading.Thread.CurrentThread.ManagedThreadId;

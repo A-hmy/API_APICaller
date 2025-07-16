@@ -3,19 +3,22 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
-using System.Threading.Tasks;
 using System.Text.Json;
+using System.Threading.Tasks;
 namespace APICaller
 {
     internal class HttpRequest
     {
+        static public string Token;
         private static readonly object lockObj = new object();
         public static async Task Post(string baseUrl)
         {
             using var httpClient = new HttpClient();
             string title;
             string authorName;
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
             lock (lockObj)
             {
                 Console.WriteLine("Add new book:");
@@ -44,6 +47,7 @@ namespace APICaller
         {
             using var httpClient = new HttpClient();
             httpClient.BaseAddress = new Uri(baseUrl);
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
             HttpResponseMessage response = await httpClient.GetAsync("book");
             if (response.IsSuccessStatusCode)
             {
@@ -64,6 +68,7 @@ namespace APICaller
         public static async Task GetByTitle(string baseUrl)
         {
             using var httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
             string title;
             lock (lockObj)
             {
@@ -87,6 +92,29 @@ namespace APICaller
             else
             {
                 Console.WriteLine("Error");
+            }
+        }
+        public static async Task Post_token(string baseUrl)
+        {
+            Console.WriteLine("Enter Your userneme:");
+            string username = Console.ReadLine();
+            Console.WriteLine("Enter your pass:");
+            string password = Console.ReadLine();
+            using var httpClient = new HttpClient();
+            User userlogin = new User { UserName=username,Password=password};
+            string json = JsonSerializer.Serialize(userlogin);
+            HttpContent httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+            httpClient.BaseAddress = new Uri(baseUrl);
+            HttpResponseMessage response = await httpClient.PostAsync("Login", httpContent);
+            if (response.IsSuccessStatusCode)
+            {
+                Console.WriteLine("You Loged in");
+                Token = await response.Content.ReadAsStringAsync();
+                Console.WriteLine($"Token: {Token}");
+            }
+            else
+            {
+                Console.WriteLine("Error:login");
             }
         }
     }

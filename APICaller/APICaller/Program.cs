@@ -8,6 +8,7 @@ class Program
     {
         Console.WriteLine("Enter the URL base:");
         string baseurl = Console.ReadLine();
+        await HttpRequest.Post_token(baseurl);
         Console.WriteLine($"Select the operations you would like to perform from the list below:{"\n"} View books: 1 {"\n"} Find a book using its title: 2 {"\n"} Add a new book: 3 {"\n"} End: 0");
         List<string> request = new List<string>();
         string input = Console.ReadLine();
