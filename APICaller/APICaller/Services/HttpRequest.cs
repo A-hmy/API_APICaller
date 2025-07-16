@@ -18,6 +18,7 @@ namespace APICaller
             string authorName;
             lock (lockObj)
             {
+                Console.WriteLine("Add new book:");
                 Console.WriteLine("Enter book title:");
                 title = Console.ReadLine();
                 Console.WriteLine("Enter book author name:");
@@ -66,7 +67,7 @@ namespace APICaller
             string title;
             lock (lockObj)
             {
-                Console.WriteLine("Enter the title of the book");
+                Console.WriteLine("Enter a title to search for books.");
                 title = Console.ReadLine();
                 Console.WriteLine("___________________________________________________________________________________________________");
             }
@@ -78,7 +79,7 @@ namespace APICaller
                 List<BookModel> listBook = JsonSerializer.Deserialize<List<BookModel>>(res);
                 lock (lockObj)
                 {
-                    Console.WriteLine($"Search for {title}:");
+                    Console.WriteLine($"Results for your search: \"{title}\":");
                     foreach (BookModel book in listBook) { Console.WriteLine($"Title:{book.title}{"\t"}Author:{book.author.name}{"\n"}"); }
                     Console.WriteLine("___________________________________________________________________________________________________");
                 }

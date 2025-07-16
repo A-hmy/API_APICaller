@@ -8,7 +8,7 @@ class Program
     {
         Console.WriteLine("Enter the URL base:");
         string baseurl = Console.ReadLine();
-        Console.WriteLine($"Enter number:{"\n"} Display All books: 1 {"\n"} Display a book by title: 2 {"\n"} Add a book: 3 {"\n"} End: 0");
+        Console.WriteLine($"Select the operations you would like to perform from the list below:{"\n"} View books: 1 {"\n"} Find a book using its title: 2 {"\n"} Add a new book: 3 {"\n"} End: 0");
         List<string> request = new List<string>();
         string input = Console.ReadLine();
         while (input!="0") {
